@@ -15,23 +15,37 @@ padding:20px;
 }
 
 .container{
-max-width:400px;
+max-width:360px;
 margin:auto;
 text-align:center;
 }
 
-input, button{
-width:100%;
-padding:12px;
-margin-top:10px;
+h2{
+margin-bottom:15px;
+}
+
+/* INPUTS MENORES */
+input{
+width:85%;
+padding:10px;
+margin-top:8px;
 border:none;
-border-radius:8px;
-font-size:16px;
+border-radius:6px;
+font-size:14px;
+display:block;
+margin-left:auto;
+margin-right:auto;
 }
 
 button{
+width:90%;
+padding:12px;
+margin-top:12px;
+border:none;
+border-radius:8px;
 background:#22c55e;
 color:white;
+font-size:15px;
 cursor:pointer;
 }
 
@@ -40,7 +54,7 @@ background:#1e293b;
 padding:10px;
 margin-top:10px;
 border-radius:8px;
-font-size:14px;
+font-size:13px;
 word-break:break-all;
 text-align:left;
 }
@@ -56,7 +70,7 @@ background:#22c55e;
 
 .status{
 margin-top:5px;
-font-size:13px;
+font-size:12px;
 }
 </style>
 </head>
@@ -120,46 +134,51 @@ div.innerHTML = `
 
 resultado.appendChild(div);
 
-// copiar (fica verde permanente e continua copiando)
+// copiar (fica verde permanente)
 document.getElementById(`btn${i}`).addEventListener("click", function(){
 navigator.clipboard.writeText(link);
 this.classList.add("copiado");
 this.innerText = "Copiado";
 });
 
-// verificar status com IMG
+// verificar status
 verificarStatus(s.url, i);
 
 });
 
 }
 
+// ✅ TESTE COM IFRAME
 function verificarStatus(url, i){
 
 let el = document.getElementById(`status${i}`);
 
-let img = new Image();
+let iframe = document.createElement("iframe");
+iframe.style.display = "none";
 
-img.onload = function(){
+let timeout = setTimeout(()=>{
+el.innerText = "🔴 Offline";
+el.style.color = "red";
+iframe.remove();
+}, 5000);
+
+iframe.onload = function(){
+clearTimeout(timeout);
 el.innerText = "🟢 Online";
 el.style.color = "lightgreen";
+iframe.remove();
 };
 
-img.onerror = function(){
+iframe.onerror = function(){
+clearTimeout(timeout);
 el.innerText = "🔴 Offline";
 el.style.color = "red";
+iframe.remove();
 };
 
-// evita cache
-img.src = url + "/favicon.ico?rand=" + Math.random();
+iframe.src = url;
 
-// timeout (se demorar muito)
-setTimeout(()=>{
-if(el.innerText === "🟡 Testando..."){
-el.innerText = "🔴 Offline";
-el.style.color = "red";
-}
-}, 5000);
+document.body.appendChild(iframe);
 
 }
 
