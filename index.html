@@ -58,29 +58,41 @@ word-break:break-all;
 text-align:left;
 }
 
-.copy{
-background:#3b82f6;
+.actions{
+display:flex;
+align-items:center;
+gap:8px;
 margin-top:6px;
+}
+
+.copy{
+flex:1;
+background:#3b82f6;
 }
 
 .copy.copiado{
 background:#22c55e;
 }
 
-/* BOTÃO DISCRETO */
+/* BOTÃO MINI DISCRETO */
 .testar{
-background:none;
+width:32px;
+height:32px;
+background:#334155;
 border:none;
-color:#94a3b8;
-font-size:12px;
-margin-left:8px;
+border-radius:6px;
+color:#cbd5f5;
+font-size:16px;
 cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
 padding:0;
 }
 
 .testar:hover{
-color:#38bdf8;
-text-decoration:underline;
+background:#475569;
+color:white;
 }
 </style>
 </head>
@@ -137,9 +149,11 @@ div.className = "server";
 div.innerHTML = `
 <b>${s.nome}</b><br>
 <span id="link${i}">${link}</span>
-<br>
+
+<div class="actions">
 <button id="btn${i}" class="copy">Copiar</button>
-<button class="testar" onclick="testar('${s.url}')">testar</button>
+<button class="testar" onclick="testar('${s.url}')">↗</button>
+</div>
 `;
 
 resultado.appendChild(div);
