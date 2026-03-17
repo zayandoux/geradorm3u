@@ -11,28 +11,37 @@ font-family: Arial, sans-serif;
 background:#0f172a;
 color:white;
 padding:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
 .container{
-max-width:420px;
-margin:auto;
-}
-
-h2{
+width:100%;
+max-width:400px;
 text-align:center;
 }
 
+h2{
+margin-bottom:20px;
+}
+
 input{
-width:100%;
+width:90%;
 padding:12px;
 margin-top:10px;
 border:none;
 border-radius:8px;
 font-size:16px;
+display:block;
+margin-left:auto;
+margin-right:auto;
 }
 
 button{
-width:100%;
+width:90%;
 padding:12px;
 margin-top:12px;
 border:none;
@@ -40,6 +49,7 @@ border-radius:8px;
 background:#22c55e;
 color:white;
 font-size:16px;
+cursor:pointer;
 }
 
 .server{
@@ -49,11 +59,16 @@ margin-top:10px;
 border-radius:8px;
 font-size:14px;
 word-break:break-all;
+text-align:left;
 }
 
 .copy{
 background:#3b82f6;
 margin-top:6px;
+}
+
+.copy.copiado{
+background:#22c55e;
 }
 </style>
 </head>
@@ -62,12 +77,12 @@ margin-top:6px;
 
 <div class="container">
 
-<h2>Gerador MultiServidor</h2>
+<h2>GERADOR M3U</h2>
 
 <input id="user" placeholder="Usuário">
 <input id="pass" placeholder="Senha">
 
-<button onclick="gerar()">Gerar Links</button>
+<button onclick="gerar()">Gerar M3U</button>
 
 <div id="resultado"></div>
 
@@ -80,7 +95,7 @@ const servidores = [
 {nome:"Galaxy", url:"http://wv.ntxv8s.site"},
 {nome:"Sky", url:"http://meuscanais.pro"},
 {nome:"Solar", url:"http://solar.playblc.work"},
-{nome:"Arena", url:"http://alproxy.xyz"},
+{nome:"Atena", url:"http://alproxy.xyz"},
 {nome:"Explosion", url:"http://explosion.blcplay5.work"},
 {nome:"Fire", url:"http://fire.npremium.fun"},
 {nome:"Lunar", url:"http://lunar.blcplay3.work"},
@@ -107,7 +122,7 @@ html += `
 <div class="server">
 <b>${s.nome}</b><br>
 <span id="link${i}">${link}</span>
-<button class="copy" onclick="copiar('link${i}')">Copiar</button>
+<button id="btn${i}" class="copy" onclick="copiar('link${i}','btn${i}')">Copiar</button>
 </div>
 `;
 
@@ -117,13 +132,21 @@ document.getElementById("resultado").innerHTML = html;
 
 }
 
-function copiar(id){
+function copiar(id, btnId){
 
 let texto = document.getElementById(id).innerText;
 
 navigator.clipboard.writeText(texto);
 
-alert("Link copiado!");
+let btn = document.getElementById(btnId);
+
+btn.classList.add("copiado");
+btn.innerText = "Copiado!";
+
+setTimeout(()=>{
+btn.classList.remove("copiado");
+btn.innerText = "Copiar";
+},2000);
 
 }
 
