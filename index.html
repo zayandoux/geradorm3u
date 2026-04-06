@@ -3,41 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador M3U</title>
+<title>Painel M3U</title>
 
 <style>
 body{
 font-family: Arial, sans-serif;
 background:#0f172a;
-color:white;
+color:#e2e8f0;
 margin:0;
 padding:20px;
 }
 
 .container{
-max-width:360px;
+max-width:400px;
 margin:auto;
-text-align:center;
 }
 
-h2{
-margin-bottom:15px;
+h1{
+text-align:center;
+margin-bottom:20px;
 }
 
 input{
-width:85%;
-padding:10px;
-margin-top:8px;
+width:100%;
+padding:12px;
+margin-top:10px;
 border:none;
-border-radius:6px;
+border-radius:8px;
+background:#1e293b;
+color:white;
 font-size:14px;
-display:block;
-margin-left:auto;
-margin-right:auto;
 }
 
 button{
-width:90%;
+width:100%;
 padding:12px;
 margin-top:12px;
 border:none;
@@ -46,23 +45,24 @@ background:#22c55e;
 color:white;
 font-size:15px;
 cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 .server{
 background:#1e293b;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-font-size:13px;
-word-break:break-all;
-text-align:left;
+padding:12px;
+margin-top:12px;
+border-radius:10px;
 }
 
 .actions{
 display:flex;
-align-items:center;
 gap:6px;
-margin-top:6px;
+margin-top:8px;
 }
 
 .copy{
@@ -70,6 +70,7 @@ flex:1;
 background:#3b82f6;
 font-size:12px;
 padding:8px;
+border-radius:6px;
 }
 
 .copy.copiado{
@@ -77,23 +78,9 @@ background:#22c55e;
 }
 
 .testar{
-width:32px;
-height:32px;
+width:36px;
 background:#334155;
-border:none;
 border-radius:6px;
-color:#cbd5f5;
-font-size:16px;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:0;
-}
-
-.testar:hover{
-background:#475569;
-color:white;
 }
 </style>
 </head>
@@ -102,12 +89,12 @@ color:white;
 
 <div class="container">
 
-<h2>GERADOR M3U</h2>
+<h1>Painel M3U</h1>
 
 <input id="user" placeholder="Usuário">
 <input id="pass" placeholder="Senha">
 
-<button onclick="gerar()">Gerar M3U</button>
+<button onclick="gerar()">Gerar Links</button>
 
 <div id="resultado"></div>
 
@@ -118,24 +105,30 @@ color:white;
 const servidores = [
 {nome:"Seven", url:"http://seven.blcplay.com"},
 {nome:"Galaxy", url:"http://wv.ntxv8s.site"},
-{nome:"Sky", url:"http://meuscanais.pro"},
-{nome:"Solar", url:"http://solar.playblc.work"},
-{nome:"Atena", url:"http://alproxy.xyz"},
 {nome:"Explosion", url:"http://vexio.sbs/get"},
-{nome:"Fire", url:"http://fire.npremium.fun"},
 {nome:"Lunar", url:"http://lunar.blcplay3.work"},
 {nome:"Speed", url:"http://speed.blcplay2.work"},
+{nome:"Olympus", url:"http://olympus.netpl4y.com"},
+{nome:"Tita", url:"http://tita.netpl4y.com"},
+{nome:"Sky", url:"http://meuscanais.pro"},
+{nome:"Solar", url:"http://solar.playblc.work"},
 {nome:"Urano", url:"http://urano.playblc.work"},
+{nome:"Atena", url:"http://alproxy.xyz"},
 {nome:"Andromeda", url:"http://andromeda.playblc.work"},
 {nome:"Venus", url:"http://venus.playblc.work"},
-{nome:"Tita", url:"http://tita.netpl4y.com"},
-{nome:"Olympus", url:"http://olympus.netpl4y.com"}
+{nome:"Flash", url:"http://flash.netpl4y.com"},
+{nome:"Fire", url:"http://fire.npremium.fun"}
 ];
 
 function gerar(){
 
 let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
+
+if(!user || !pass){
+alert("Preencha usuário e senha");
+return;
+}
 
 let resultado = document.getElementById("resultado");
 resultado.innerHTML = "";
@@ -148,31 +141,41 @@ let div = document.createElement("div");
 div.className = "server";
 
 div.innerHTML = `
-<b>${s.nome}</b><br>
-<span id="link${i}">${link}</span>
+<b>${s.nome}</b>
+<div style="font-size:11px;margin-top:6px;word-break:break-all">${link}</div>
 
 <div class="actions">
-<button id="m3u${i}" class="copy">Copiar M3U</button>
-<button id="dns${i}" class="copy">Copiar DNS</button>
+<button id="m3u${i}" class="copy">Copiar</button>
+<button id="dns${i}" class="copy">DNS</button>
 <button class="testar" onclick="testar('${s.url}')">↗</button>
 </div>
 `;
 
 resultado.appendChild(div);
 
-// Copiar M3U
-document.getElementById(`m3u${i}`).addEventListener("click", function(){
+// copiar M3U
+document.getElementById(`m3u${i}`).onclick = function(){
 navigator.clipboard.writeText(link);
-this.classList.add("copiado");
 this.innerText = "Copiado";
-});
+this.classList.add("copiado");
 
-// Copiar DNS
-document.getElementById(`dns${i}`).addEventListener("click", function(){
+setTimeout(()=>{
+this.innerText = "Copiar";
+this.classList.remove("copiado");
+},2000);
+};
+
+// copiar DNS
+document.getElementById(`dns${i}`).onclick = function(){
 navigator.clipboard.writeText(s.url);
-this.classList.add("copiado");
 this.innerText = "Copiado";
-});
+this.classList.add("copiado");
+
+setTimeout(()=>{
+this.innerText = "DNS";
+this.classList.remove("copiado");
+},2000);
+};
 
 });
 
