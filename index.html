@@ -9,44 +9,272 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-body {
+/* Variáveis de Cores - Temas Dinâmicos */
+:root {
+    --bg-main: radial-gradient(circle at center, #0a0f1a 0%, #000000 100%);
+    --panel-bg: rgba(15, 19, 32, 0.95);
+    --panel-border: #16f09e;
+    --panel-shadow: 0 0 50px rgba(34, 255, 150, 0.6), 0 0 30px rgba(59, 130, 246, 0.3);
+    --header-bg: linear-gradient(90deg, #0fffa3, #22c55e);
+    --header-text: #0a0f1a;
+    --input-bg: #0f1320;
+    --text-main: #e0e0e0;
+    --server-bg: rgba(10, 15, 26, 0.95);
+    --server-border: #22ff9e;
+    --server-shadow: 0 0 20px rgba(34, 255, 150, 0.5), 0 0 15px rgba(59, 130, 246, 0.3);
+    --link-color: #c0f9de;
+    --particle-color: #22ff9e;
+    --switch-bg: rgba(10, 15, 26, 0.4);
+}
+
+/* Modificações do Modo Claro Geral */
+[data-theme="light"] {
+    --bg-main: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    --panel-bg: rgba(255, 255, 255, 0.95);
+    --panel-border: #22c55e;
+    --panel-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --header-bg: linear-gradient(90deg, #10b981, #059669);
+    --header-text: #ffffff;
+    --input-bg: #ffffff;
+    --text-main: #1e293b;
+    --server-bg: #ffffff;
+    --server-border: #059669;
+    --server-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --link-color: #047857;
+    --particle-color: #10b981;
+    --switch-bg: rgba(255, 255, 255, 0.4);
+}
+
+/* --- NOVAS PALETAS BASEADAS EM CORES --- */
+
+/* 1. Azul Royal (antigo Seven) */
+[data-palette="azul"] {
+    --panel-border: #3b82f6;
+    --panel-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+    --header-bg: linear-gradient(90deg, #1d4ed8, #3b82f6);
+    --header-text: #ffffff;
+    --server-border: #06b6d4;
+    --server-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    --link-color: #cffaf2;
+    --particle-color: #3b82f6;
+}
+[data-theme="light"][data-palette="azul"] {
+    --panel-border: #1d4ed8;
+    --header-bg: linear-gradient(90deg, #1e3a8a, #1d4ed8);
+    --server-border: #0369a1;
+    --link-color: #1e3a8a;
+}
+
+/* 2. Âmbar Bronze (antigo Explosion - Nova cor totalmente diferente do Solar) */
+[data-palette="ambar"] {
+    --panel-border: #cd7f32;
+    --panel-shadow: 0 0 40px rgba(205, 127, 50, 0.4);
+    --header-bg: linear-gradient(90deg, #4a2c11, #cd7f32);
+    --header-text: #ffffff;
+    --server-border: #b87333;
+    --server-shadow: 0 0 20px rgba(184, 115, 51, 0.3);
+    --link-color: #ffe4c4;
+    --particle-color: #cd7f32;
+}
+[data-theme="light"][data-palette="ambar"] {
+    --panel-border: #8b5a2b;
+    --header-bg: linear-gradient(90deg, #3e2723, #8b5a2b);
+    --header-text: #ffffff;
+    --server-border: #5c3a21;
+    --link-color: #3e2723;
+}
+
+/* 3. Amarelo Ouro (antigo Speed) */
+[data-palette="amarelo"] {
+    --panel-border: #eab308;
+    --panel-shadow: 0 0 40px rgba(234, 179, 8, 0.5);
+    --header-bg: linear-gradient(90deg, #ca8a04, #facc15);
+    --header-text: #0a0f1a;
+    --server-border: #fef08a;
+    --server-shadow: 0 0 20px rgba(254, 240, 138, 0.3);
+    --link-color: #fef9c3;
+    --particle-color: #eab308;
+}
+[data-theme="light"][data-palette="amarelo"] {
+    --panel-border: #a16207;
+    --header-bg: linear-gradient(90deg, #854d0e, #ca8a04);
+    --header-text: #ffffff;
+    --server-border: #a16207;
+    --link-color: #713f12;
+}
+
+/* 4. Roxo Neon (antigo Galaxy) */
+[data-palette="roxo"] {
+    --panel-border: #a855f7;
+    --panel-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+    --header-bg: linear-gradient(90deg, #4c1d95, #7e22ce);
+    --header-text: #ffffff;
+    --server-border: #c084fc;
+    --server-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
+    --link-color: #e9d5ff;
+    --particle-color: #a855f7;
+}
+[data-theme="light"][data-palette="roxo"] {
+    --panel-border: #6b21a8;
+    --header-bg: linear-gradient(90deg, #3b0764, #6b21a8);
+    --server-border: #7e22ce;
+    --link-color: #5b21b6;
+}
+
+/* 5. Cinza Platina (antigo Lunar) */
+[data-palette="cinza"] {
+    --panel-border: #94a3b8;
+    --panel-shadow: 0 0 40px rgba(148, 163, 184, 0.4);
+    --header-bg: linear-gradient(90deg, #334155, #64748b);
+    --header-text: #f8fafc;
+    --server-border: #cbd5e1;
+    --server-shadow: 0 0 20px rgba(203, 213, 225, 0.3);
+    --link-color: #f1f5f9;
+    --particle-color: #94a3b8;
+}
+[data-theme="light"][data-palette="cinza"] {
+    --panel-border: #475569;
+    --header-bg: linear-gradient(90deg, #1e293b, #475569);
+    --server-border: #334155;
+    --link-color: #1e293b;
+}
+
+/* 6. Azul Oceano (antigo Atena) */
+[data-palette="oceano"] {
+    --panel-border: #0284c7;
+    --panel-shadow: 0 0 40px rgba(2, 132, 199, 0.5);
+    --header-bg: linear-gradient(90deg, #0369a1, #0284c7);
+    --header-text: #ffffff;
+    --server-border: #38bdf8;
+    --server-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+    --link-color: #e0f2fe;
+    --particle-color: #0284c7;
+}
+[data-theme="light"][data-palette="oceano"] {
+    --panel-border: #0369a1;
+    --header-bg: linear-gradient(90deg, #0f172a, #0369a1);
+    --server-border: #0284c7;
+    --link-color: #1d4ed8;
+}
+
+/* 7. Laranja Solar (antigo Solar) */
+[data-palette="laranja"] {
+    --panel-border: #f97316;
+    --panel-shadow: 0 0 40px rgba(249, 115, 22, 0.5);
+    --header-bg: linear-gradient(90deg, #ea580c, #facc15);
+    --header-text: #0a0f1a;
+    --server-border: #f97316;
+    --server-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+    --link-color: #ffedd5;
+    --particle-color: #f97316;
+}
+[data-theme="light"][data-palette="laranja"] {
+    --panel-border: #c2410c;
+    --header-bg: linear-gradient(90deg, #9a3412, #ea580c);
+    --header-text: #ffffff;
+    --server-border: #c2410c;
+    --link-color: #9a3412;
+}
+
+/* 8. Verde Esmeralda (antigo Venus) */
+[data-palette="esmeralda"] {
+    --panel-border: #0d9488;
+    --panel-shadow: 0 0 40px rgba(13, 148, 136, 0.5);
+    --header-bg: linear-gradient(90deg, #115e59, #0d9488);
+    --header-text: #ccfbf1;
+    --server-border: #2dd4bf;
+    --server-shadow: 0 0 20px rgba(45, 212, 191, 0.4);
+    --link-color: #e6fffa;
+    --particle-color: #0d9488;
+}
+[data-theme="light"][data-palette="esmeralda"] {
+    --panel-border: #115e59;
+    --header-bg: linear-gradient(90deg, #134e4a, #14b8a6);
+    --header-text: #ffffff;
+    --server-border: #115e59;
+    --link-color: #115e59;
+}
+
+/* 9. Vermelho Fogo (antigo Fire) */
+[data-palette="vermelho"] {
+    --panel-border: #dc2626;
+    --panel-shadow: 0 0 40px rgba(220, 38, 38, 0.5);
+    --header-bg: linear-gradient(90deg, #7f1d1d, #dc2626);
+    --header-text: #ffffff;
+    --server-border: #ef4444;
+    --server-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    --link-color: #fee2e2;
+    --particle-color: #dc2626;
+}
+[data-theme="light"][data-palette="vermelho"] {
+    --panel-border: #991b1b;
+    --header-bg: linear-gradient(90deg, #7f1d1d, #b91c1c);
+    --server-border: #991b1b;
+    --link-color: #7f1d1d;
+}
+
+/* 10. Ciano Neon (antigo Urano) */
+[data-palette="ciano"] {
+    --panel-border: #06b6d4;
+    --panel-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
+    --header-bg: linear-gradient(90deg, #0f766e, #06b6d4);
+    --header-text: #ffffff;
+    --server-border: #22d3ee;
+    --server-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+    --link-color: #ecfeff;
+    --particle-color: #06b6d4;
+}
+[data-theme="light"][data-palette="ciano"] {
+    --panel-border: #0891b2;
+    --header-bg: linear-gradient(90deg, #164e63, #06b6d4);
+    --server-border: #0891b2;
+    --link-color: #0891b2;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle at center, #0a0f1a 0%, #000000 100%);
-    font-family: 'Roboto', sans-serif;
-    color: #e0e0e0;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
     padding: 40px 20px;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
-/* Painel principal */
 .panel {
     position: relative;
     width: 100%;
     max-width: 750px;
-    background: rgba(15, 19, 32, 0.95);
+    background: var(--panel-bg);
     border-radius: 20px;
-    overflow: hidden;
-    border: 2px solid #16f09e;
-    box-shadow: 0 0 50px rgba(34, 255, 150, 0.6), 0 0 30px rgba(59, 130, 246, 0.3);
+    border: 2px solid var(--panel-border);
+    box-shadow: var(--panel-shadow);
+    height: fit-content;
 }
 
-/* Partículas animadas */
+/* Partículas */
 .particles {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none;
     overflow: hidden;
     z-index: 0;
+    border-radius: 18px;
 }
 
 .particles span {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: #22ff9e;
+    background: var(--particle-color);
     opacity: 0.3;
     border-radius: 50%;
     animation: floatParticles linear infinite;
@@ -61,92 +289,192 @@ body {
 /* Cabeçalho */
 .header {
     position: relative;
-    background: linear-gradient(90deg, #0fffa3, #22c55e);
-    color: #0a0f1a;
+    background: var(--header-bg);
+    color: var(--header-text);
     font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    font-size: 30px;
+    text-align: left;
+    font-size: 22px;
     font-weight: 700;
-    padding: 25px;
-    text-shadow: 0 0 10px #22c55e, 0 0 20px #0fffa3;
-    z-index: 1;
+    padding: 18px 20px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    border-top-left-radius: 18px;   
+    border-top-right-radius: 18px;
 }
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+/* INTERRUPTOR MINI */
+.theme-switch {
+    position: relative;
+    display: block;
+    width: 46px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.theme-switch input { display: none; }
+
+.slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--switch-bg);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 24px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+}
+
+.slider::before { content: "🌙"; font-size: 10px; order: 2; }
+.slider::after { content: "☀️"; font-size: 10px; order: 1; opacity: 0.4; }
+
+.knob {
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    top: 3px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:checked + .slider { background-color: rgba(255, 255, 255, 0.4); }
+input:checked + .slider .knob { transform: translateX(22px); background-color: #0a0f1a; }
+input:checked + .slider::after { opacity: 1; }
+input:checked + .slider::before { opacity: 0.4; }
+
+/* BOTÃO LÁPIS */
+.theme-panel-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-panel-btn:hover { transform: scale(1.15); }
+
+/* MENU DE TEMAS NO CANTO PERFEITO (Alinhado com o Lápis sempre) */
+.color-panel {
+    display: none;
+    position: absolute;
+    top: 55px;
+    right: 40px; /* Alinha bem colado ao botão de lápis no canto */
+    background: #0f1320;
+    border: 2px solid var(--panel-border);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+    gap: 6px;
+    flex-direction: column;
+    width: 180px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 9999999 !important;
+}
+.color-panel.active { display: flex; }
+.color-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+}
+.color-opt:hover { background: rgba(255,255,255,0.15); }
+.circle-preview { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+.color-panel::-webkit-scrollbar { width: 4px; }
+.color-panel::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 10px; }
 
 /* Login */
 .login {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
-    padding: 20px 25px;
-    justify-content: center;
+    flex-direction: column;
+    padding: 25px;
     position: relative;
     z-index: 1;
 }
 
 .login input {
-    flex: 1 1 200px;
+    width: 100%;
     padding: 14px 18px;
     border-radius: 12px;
-    border: 1px solid #22c55e;
-    background: #0f1320;
-    color: #e0e0e0;
+    border: 1px solid var(--panel-border);
+    background: var(--input-bg);
+    color: var(--text-main);
     font-size: 15px;
-    transition: 0.3s;
 }
 
 .login input:focus {
     outline: none;
-    box-shadow: 0 0 15px #22ff9e;
-    border-color: #22ff9e;
+    box-shadow: 0 0 15px var(--panel-border);
+    border-color: var(--panel-border);
 }
 
 .login button {
+    width: 100%;
     padding: 14px 20px;
     border-radius: 12px;
     border: none;
-    background: #22c55e;
-    color: #0a0f1a;
+    background: var(--panel-border);
+    color: var(--header-text);
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
-    box-shadow: 0 0 15px #22ff9e;
-    transition: transform 0.2s;
+    box-shadow: 0 0 15px rgba(34, 255, 150, 0.4);
+    transition: transform 0.2s, background-color 0.2s;
 }
-
-.login button:hover {
-    transform: translateY(-2px);
-}
+.login button:hover { transform: translateY(-2px); }
 
 /* Grid de resultados */
 #resultado {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    padding: 20px 25px 30px 25px;
+    padding: 0 25px 30px 25px;
     position: relative;
     z-index: 1;
 }
 
-/* Cards dos servidores */
 .server {
     position: relative;
-    background: rgba(10,15,26,0.95);
-    border: 2px solid #22ff9e;
+    background: var(--server-bg);
+    border: 2px solid var(--server-border);
     border-radius: 15px;
     padding: 15px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(34,255,150,0.5), 0 0 15px rgba(59,130,246,0.3);
+    box-shadow: var(--server-shadow);
 }
 
-/* Barra de energia contínua */
 .energy-bar {
     height: 5px;
     width: 100%;
     border-radius: 5px;
-    background: linear-gradient(270deg, #0fffa3, #22ff9e, #0fffa3);
+    background: linear-gradient(270deg, var(--panel-border), var(--server-border), var(--panel-border));
     background-size: 200% 100%;
     margin-bottom: 10px;
     animation: wave 4s linear infinite;
@@ -161,42 +489,26 @@ body {
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: 20px;
-    color: #22ff9e;
+    color: var(--server-border);
     margin-bottom: 10px;
 }
 
-.server-link {
-    font-size: 12px;
-    word-break: break-all;
-    color: #c0f9de;
-    margin-bottom: 12px;
-}
+.server-link { font-size: 12px; word-break: break-all; color: var(--link-color); margin-bottom: 12px; }
+.actions { display: flex; gap: 10px; }
+.actions button { flex: 1; padding: 10px 0; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; text-transform: uppercase; }
 
-.actions {
-    display: flex;
-    gap: 10px;
-}
-
-.actions button {
-    flex: 1;
-    padding: 10px 0;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    text-transform: uppercase;
-}
-
-/* Botões estáticos */
 .copy { background: #3b82f6; color: #fff; }
 .copy.copiado { background: #22ff9e; color: #0a0f1a; }
+[data-theme="light"] .copy.copiado { background: #10b981; color: #fff; }
 .dns { background: #f97316; color: #fff; }
 .dns.copiado { background: #22ff9e; color: #0a0f1a; }
+[data-theme="light"] .dns.copiado { background: #10b981; color: #fff; }
 .testar { background: #475569; color: #fff; font-size:16px; width:36px; }
 
-@media(max-width: 650px){
+@media(max-width: 650px) {
     #resultado { grid-template-columns: 1fr; }
+    .header { font-size: 18px; }
+    .color-panel { right: 10px; top: 60px; } /* Mantém colado no canto superior direito no mobile */
 }
 </style>
 </head>
@@ -204,11 +516,59 @@ body {
 
 <div class="panel">
     <div class="particles" id="particles"></div>
-    <div class="header">Gerador de M3U</div>
+    <div class="header">
+        <span>Gerador de M3U</span>
+        
+        <div class="header-controls">
+            <button class="theme-panel-btn" onclick="toggleColorPanel()" title="Painel de Temas">✏️</button>
+            <label class="theme-switch" title="Alternar Luz/Sombra">
+                <input type="checkbox" id="theme-toggle-chk" onchange="toggleTheme()">
+                <div class="slider">
+                    <span class="knob"></span>
+                </div>
+            </label>
+        </div>
+
+        <div class="color-panel" id="color-menu">
+            <div class="color-opt" onclick="setPalette('default')">
+                <div class="circle-preview" style="background:#16f09e;"></div> Verde Padrão
+            </div>
+            <div class="color-opt" onclick="setPalette('azul')">
+                <div class="circle-preview" style="background:#3b82f6;"></div> Azul Royal
+            </div>
+            <div class="color-opt" onclick="setPalette('ambar')">
+                <div class="circle-preview" style="background:#cd7f32;"></div> Âmbar Bronze
+            </div>
+            <div class="color-opt" onclick="setPalette('amarelo')">
+                <div class="circle-preview" style="background:#eab308;"></div> Amarelo Ouro
+            </div>
+            <div class="color-opt" onclick="setPalette('roxo')">
+                <div class="circle-preview" style="background:#a855f7;"></div> Roxo Neon
+            </div>
+            <div class="color-opt" onclick="setPalette('cinza')">
+                <div class="circle-preview" style="background:#94a3b8;"></div> Cinza Platina
+            </div>
+            <div class="color-opt" onclick="setPalette('oceano')">
+                <div class="circle-preview" style="background:#0284c7;"></div> Azul Oceano
+            </div>
+            <div class="color-opt" onclick="setPalette('laranja')">
+                <div class="circle-preview" style="background:#f97316;"></div> Laranja Solar
+            </div>
+            <div class="color-opt" onclick="setPalette('esmeralda')">
+                <div class="circle-preview" style="background:#0d9488;"></div> Verde Esmeralda
+            </div>
+            <div class="color-opt" onclick="setPalette('vermelho')">
+                <div class="circle-preview" style="background:#dc2626;"></div> Vermelho Fogo
+            </div>
+            <div class="color-opt" onclick="setPalette('ciano')">
+                <div class="circle-preview" style="background:#06b6d4;"></div> Ciano Neon
+            </div>
+        </div>
+    </div>
 
     <div class="login">
-        <input id="user" placeholder="Usuário">
-        <input id="pass" placeholder="Senha">
+        <input id="user" placeholder="Usuário" autocomplete="off">
+        <input id="pass" type="text" placeholder="Senha" autocomplete="off">
         <button onclick="gerar()">Gerar Links</button>
     </div>
 
@@ -216,7 +576,25 @@ body {
 </div>
 
 <script>
-// Criar partículas
+document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("app-theme");
+    const themeChk = document.getElementById("theme-toggle-chk");
+    if (savedTheme === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeChk.checked = true;
+    } else {
+        document.documentElement.removeAttribute("data-theme");
+        themeChk.checked = false;
+    }
+
+    const savedPalette = localStorage.getItem("app-palette");
+    if (savedPalette && savedPalette !== "default") {
+        document.documentElement.setAttribute("data-palette", savedPalette);
+    } else {
+        document.documentElement.removeAttribute("data-palette");
+    }
+});
+
 const particlesContainer = document.getElementById('particles');
 for(let i=0; i<80; i++){
     let p = document.createElement('span');
@@ -229,22 +607,56 @@ for(let i=0; i<80; i++){
     particlesContainer.appendChild(p);
 }
 
-// Servidores
 const servidores = [
-{nome:"🛸 Galaxy 🛸", url:"http://galaxy.blcplay.com"},
-{nome:"🧿 Seven 🧿", url:"http://seven.blcplay.com"},
-{nome:"💣 Explosion 💣", url:"http://nsync.space"},
-{nome:"🌑 Lunar 🌑", url:"http://lunar.kkrototv.fun"},
-{nome:"🏛️ Atena 🏛️", url:"http://atena.kkrototv.fun"},
-{nome:"⚡ Speed ⚡", url:"http://netuno.live"},
-{nome:"☀️ Solar ☀️", url:"http://solar.kkrototv.fun"},
-{nome:"🌬️ Venus 🌬️", url:"http://venus.blcplay.com"},
-{nome:"🔥 Fire 🔥", url:"http://fire.kkrototv.fun"}
+    {nome:"🧿 Seven 🧿", url:"http://seven.blcplay.com"},
+    {nome:"💣 Explosion 💣", url:"http://nsync.space"},
+    {nome:"⚡ Speed ⚡", url:"http://netuno.live"},
+    {nome:"🛸 Galaxy 🛸", url:"http://galaxy.blcplay.com"},
+    {nome:"🌑 Lunar 🌑", url:"http://lunar.kkrototv.fun"},
+    {nome:"🏛️ Atena 🏛️", url:"http://atena.kkrototv.fun"},
+    {nome:"☀️ Solar ☀️", url:"http://solar.kkrototv.fun"},
+    {nome:"🌬️ Venus 🌬️", url:"http://venus.blcplay.com"},
+    {nome:"🔥 Fire 🔥", url:"http://fire.kkrototv.fun"},
+    {nome:"🪐 Urano 🪐", url:"http://urano.kkrototv.fun"}
 ];
 
+function toggleTheme() {
+    const body = document.documentElement;
+    const isChecked = document.getElementById("theme-toggle-chk").checked;
+    if (isChecked) {
+        body.setAttribute("data-theme", "light");
+        localStorage.setItem("app-theme", "light");
+    } else {
+        body.removeAttribute("data-theme");
+        localStorage.setItem("app-theme", "dark");
+    }
+}
+
+function toggleColorPanel() {
+    document.getElementById("color-menu").classList.toggle("active");
+}
+
+function setPalette(name) {
+    const body = document.documentElement;
+    if (name === 'default') {
+        body.removeAttribute("data-palette");
+        localStorage.setItem("app-palette", "default");
+    } else {
+        body.setAttribute("data-palette", name);
+        localStorage.setItem("app-palette", name);
+    }
+    document.getElementById("color-menu").classList.remove("active");
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.theme-panel-btn') && !event.target.closest('.color-panel')) {
+        document.getElementById("color-menu").classList.remove("active");
+    }
+}
+
 function gerar(){
-    let user = document.getElementById("user").value;
-    let pass = document.getElementById("pass").value;
+    let user = document.getElementById("user").value.trim();
+    let pass = document.getElementById("pass").value.trim();
 
     if(!user || !pass){
         alert("Preencha usuário e senha");
@@ -266,7 +678,7 @@ function gerar(){
             <div class="actions">
                 <button id="m3u${i}" class="copy">Copiar</button>
                 <button id="dns${i}" class="dns">DNS</button>
-                <button class="testar" onclick="testar('${s.url}')">?</button>
+                <button class="testar" onclick="testar('${s.url}')">↗</button>
             </div>
         `;
         resultado.appendChild(div);
@@ -275,12 +687,14 @@ function gerar(){
             navigator.clipboard.writeText(link);
             this.innerText = "Copiado";
             this.classList.add("copiado");
+            setTimeout(() => { this.innerText = "Copiar"; this.classList.remove("copiado"); }, 1500);
         };
 
         document.getElementById(`dns${i}`).onclick = function(){
             navigator.clipboard.writeText(s.url);
             this.innerText = "Copiado";
             this.classList.add("copiado");
+            setTimeout(() => { this.innerText = "DNS"; this.classList.remove("copiado"); }, 1500);
         };
     });
 }
